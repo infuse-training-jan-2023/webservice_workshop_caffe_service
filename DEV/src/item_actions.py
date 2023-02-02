@@ -19,3 +19,12 @@ class ItemActions:
         except Exception as e:
             print(e)
             return {}
+
+
+    def add_item(self,menu_item_id,menu_item_name, menu_item_description,menu_item_price):
+        try:
+            item = self.item_repo.add_menu_item(menu_item_id,menu_item_name, menu_item_description,menu_item_price)
+            return item
+        except Exception as e:
+            print(e)
+            return {}

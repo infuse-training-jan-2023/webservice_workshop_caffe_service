@@ -1,7 +1,7 @@
 from flask import Flask, Response 
 from item_actions import ItemActions
 import json
-# import requests
+import requests
 
 app = Flask(__name__)
 item_actions = ItemActions()
@@ -18,6 +18,7 @@ def display_all_menu_items():
 
 @app.route('/menu/add_item')
 def add_menu_item():
+    request_data = request.get_json()
     return 'menu all'
 
 # @app.route('/menu/<string:item_id>')
