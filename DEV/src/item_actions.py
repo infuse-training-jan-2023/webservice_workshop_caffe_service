@@ -37,6 +37,14 @@ class ItemActions:
             return {}
             
 
+    def update_order_quantity(self, cart_id, order_quantity):
+        try:
+            item = self.item_repo.update_order_quantity(cart_id, order_quantity)
+            return item
+        except Exception as e:
+            print(e)
+            return {}
+
     def display_all_menu_items(self):
         try:
             items = self.item_repo.display_all_menu_items()
