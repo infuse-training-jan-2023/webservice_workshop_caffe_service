@@ -39,9 +39,8 @@ def delete_a_menu_item(item_id):
     items = item_actions.delete_a_menu_item(item_id)
     print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
-    
 
-@app.route('/cart/<string:cust_name>', methods=['GET'])
+@app.route('/cart/get/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):
   items = item_actions.get_all_cart_items(cust_name)
   print(items)
@@ -68,6 +67,12 @@ def update_order_quantity(cart_id):
   if added_item == {}:
     return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
+
+@app.route('/cart/del/<string:cart_id>',methods=['POST'])
+def delete_cart_item(cart_id):
+    items = item_actions.delete_cart_item(cart_id)
+    print(items)
+    return Response(json.dumps(items),mimetype='application/json',status=200)
 
 if __name__ == '__main__':
     app.run(debug=True,port = 5001,host = "0.0.0.0")
