@@ -32,6 +32,15 @@ class ItemActions:
             print(e)
             return {}
 
+    def delete_a_menu_item(self, menu_item_id):
+        try:
+            item = self.item_repo.delete_a_menu_item(menu_item_id)
+            return item
+        except Exception as e:
+            print(e)
+            return {}
+            
+
     def update_order_quantity(self, cart_id, order_quantity):
         try:
             item = self.item_repo.update_order_quantity(cart_id, order_quantity)
