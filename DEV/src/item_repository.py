@@ -35,6 +35,20 @@ class ItemRepository:
         except Exception as e:
             raise Exception("Errors: ", e)
 
+    @staticmethod
+    def delete_a_menu_item(menu_item_id):
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            c.execute("DELETE FROM menu WHERE menu_item_id=?",(menu_item_id,))
+            conn.commit()
+            conn.close()
+            return {
+                'Message': f'Menu item {menu_item_id} deleted successfully'
+            }
+        except Exception as e:
+            raise Exception("Errors: ", e)
+
 
     @staticmethod
     def display_all_menu_items():

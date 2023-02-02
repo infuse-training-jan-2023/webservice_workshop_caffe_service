@@ -9,7 +9,7 @@ item_actions = ItemActions()
 def home():
     return 'Welcome to CAFFE SERVICE'
 
-@app.route('/menu/all',methods=['GET'], methods=['GET'])
+@app.route('/menu/all',methods=['GET'])
 def display_all_menu_items():
     items = item_actions.display_all_menu_items()
     print (items)
@@ -32,6 +32,13 @@ def add_menu_item():
     if added_item == {}:
         return Response("{'error': 'Error addding the item'}",mimetype='application.json',status=500)
     return Response(json.dumps(added_item),mimetype='application/json',status=201)
+
+@app.route('/menu/del/<string:item_id>',methods=['POST'])
+def delete_a_menu_item(item_id):
+    items = item_actions.delete_a_menu_item(item_id)
+    print(items)
+    return Response(json.dumps(items),mimetype='application/json',status=200)
+    
 
 @app.route('/cart/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):

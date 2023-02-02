@@ -28,6 +28,15 @@ class ItemActions:
             print(e)
             return {}
 
+    def delete_a_menu_item(self, menu_item_id):
+        try:
+            item = self.item_repo.delete_a_menu_item(menu_item_id)
+            return item
+        except Exception as e:
+            print(e)
+            return {}
+            
+
     def display_all_menu_items(self):
         try:
             items = self.item_repo.display_all_menu_items()
