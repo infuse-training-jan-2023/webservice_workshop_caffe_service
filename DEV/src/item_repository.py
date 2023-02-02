@@ -34,6 +34,7 @@ class ItemRepository:
             }
         except Exception as e:
             raise Exception("Errors: ", e)
+
     @staticmethod
     def display_all_menu_items():
         try:
@@ -43,6 +44,17 @@ class ItemRepository:
             return rows
         except Exception as e:
             raise Exception('Error: ', e)
+
+    @staticmethod
+    def display_one_menu_item():
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            rows = c.execute('select * from menu where menu_item_id=?', ("M1"))
+            return rows
+        except Exception as e:
+            raise Exception('Error: ', e)
+
     # dinesh
     @staticmethod
     def add_menu_item(menu_item_id,menu_item_name, menu_item_description,menu_item_price):
@@ -60,3 +72,4 @@ class ItemRepository:
           }
         except Exception as e:
           raise Exception('Error: ', e)
+
