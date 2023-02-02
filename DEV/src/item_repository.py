@@ -2,7 +2,7 @@ import sqlite3
 
 class ItemRepository:
     DBPATH = "./caffe_service.db"
-    
+
     @staticmethod
     def connect_db():
         return sqlite3.connect(ItemRepository.DBPATH)
@@ -35,6 +35,20 @@ class ItemRepository:
         except Exception as e:
             raise Exception("Errors: ", e)
 
+    @staticmethod
+    def update_order_quantity(cart_id, order_quantity):
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            c.execute("update cart set order_quantity=? where cart_id=?", (order_quantity, cart_id,))
+            conn.commit()
+            conn.close()
+            return {
+                'cart_id': cart_id,
+                'order_quantity': order_quantity,
+            }
+        except Exception as e:
+            raise Exception("Errors: ", e)
 
     @staticmethod
     def display_all_menu_items():

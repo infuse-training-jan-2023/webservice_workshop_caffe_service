@@ -9,7 +9,7 @@ item_actions = ItemActions()
 def home():
     return 'Welcome to CAFFE SERVICE'
 
-@app.route('/menu/all',methods=['GET'], methods=['GET'])
+@app.route('/menu/all', methods=['GET'])
 def display_all_menu_items():
     items = item_actions.display_all_menu_items()
     print (items)
@@ -27,12 +27,7 @@ def add_menu_item():
         return Response("{'error': 'Error addding the item'}",mimetype='application.json',status=500)
     return Response(json.dumps(added_item),mimetype='application/json',status=201)
 
-
-@app.route('/menu/<string:item_id>')
-def display_one_menu_item():
-    return 'menu 1'
-
-@app.route('/cart/<string:cust_name>', methods=['GET'])
+@app.route('/cart/get/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):
   items = item_actions.get_all_cart_items(cust_name)
   print(items)
@@ -48,6 +43,16 @@ def add_cart_items():
   added_item = item_actions.add_cart_item(menu_item_id, order_quantity, customer_name)
   if added_item == {}:
     return Response("{'error': 'Erro addding the item'}", mimetype='application/json', status=500)
+  return Response(json.dumps(added_item), mimetype='application/json', status=201)
+
+@app.route('/cart/set/<int:cart_id>', methods=['POST'])
+def update_order_quantity(cart_id):
+  request_data = request.get_json()
+  order_quantity = request_data['order_quantity']
+
+  added_item = item_actions.update_order_quantity(cart_id, order_quantity)
+  if added_item == {}:
+    return Response("{'error': 'Erro updating the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
 
 if __name__ == '__main__':
