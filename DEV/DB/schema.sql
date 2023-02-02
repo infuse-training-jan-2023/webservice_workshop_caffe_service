@@ -1,5 +1,5 @@
 CREATE TABLE "menu"(
-    "menu_item_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "menu_item_id" TEXT NOT NULL PRIMARY KEY,
     "menu_item_name" TEXT NOT NULL,
     "menu_item_description" TEXT NOT NULL,
     "menu_item_price" INTEGER NOT NULL
