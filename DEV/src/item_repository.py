@@ -2,7 +2,7 @@ import sqlite3
 
 class ItemRepository:
     DBPATH = "./caffe_service.db"
-
+    
     @staticmethod
     def connect_db():
         return sqlite3.connect(ItemRepository.DBPATH)
@@ -34,6 +34,7 @@ class ItemRepository:
             }
         except Exception as e:
             raise Exception("Errors: ", e)
+
 
     @staticmethod
     def display_all_menu_items():
