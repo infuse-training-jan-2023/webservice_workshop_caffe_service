@@ -27,6 +27,7 @@ class ItemActions:
         except Exception as e:
             print(e)
             return {}
+            
     def display_all_menu_items(self):
         try:
             items = self.item_repo.display_all_menu_items()
