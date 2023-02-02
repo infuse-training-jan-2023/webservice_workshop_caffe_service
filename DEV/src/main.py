@@ -33,11 +33,6 @@ def add_menu_item():
         return Response("{'error': 'Error addding the item'}",mimetype='application.json',status=500)
     return Response(json.dumps(added_item),mimetype='application/json',status=201)
 
-
-@app.route('/menu/<string:item_id>')
-def display_one_menu_item():
-    return 'menu 1'
-
 @app.route('/cart/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):
   items = item_actions.get_all_cart_items(cust_name)
