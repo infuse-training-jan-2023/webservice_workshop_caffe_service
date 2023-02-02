@@ -9,6 +9,14 @@ def home():
 
 @app.route('/menu/all')
 def display_all_menu_items():
+    return 'menu all'
+
+@app.route('/menu/add_item')
+def display_all_menu_items():
+    return 'menu all'
+
+@app.route('/menu/<string:item_id>')
+def display_one_menu_item():
     return 'menu 1'
 
 @app.route('/cart/<string:cust_name>')
