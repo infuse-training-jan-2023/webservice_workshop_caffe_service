@@ -65,6 +65,21 @@ class ItemRepository:
             raise Exception("Errors: ", e)
 
     @staticmethod
+    def update_price(item_id, menu_item_price):
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            c.execute("update menu set menu_item_price=? where menu_item_id=?", (menu_item_price, item_id,))
+            conn.commit()
+            conn.close()
+            return {
+                'menu_item_id': item_id,
+                'menu_item_price': menu_item_price,
+            }
+        except Exception as e:
+            raise Exception("Errors: ", e)
+
+    @staticmethod
     def display_all_menu_items():
         try:
             conn = ItemRepository.connect_db()

@@ -39,8 +39,19 @@ def delete_a_menu_item(item_id):
     items = item_actions.delete_a_menu_item(item_id)
     print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
-    
 
+@app.route('/menu/set/<string:item_id>',methods=['POST'])
+def update_a_menu_item(item_id):
+        request_data = request.get_json()
+        menu_item_price = request_data['menu_item_price']
+
+        updated_item_price = item_actions.update_price(item_id, menu_item_price)
+ 
+        if  updated_item_price == {}:
+            return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
+        return Response(json.dumps(updated_item_price), mimetype='application/json', status=201)
+
+    
 @app.route('/cart/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):
   items = item_actions.get_all_cart_items(cust_name)

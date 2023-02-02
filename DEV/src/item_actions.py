@@ -35,7 +35,15 @@ class ItemActions:
         except Exception as e:
             print(e)
             return {}
-            
+  
+
+    def update_price(self,item_id, menu_item_price):
+        try:
+            item = self.item_repo.update_price(item_id, menu_item_price)
+            return item
+        except Exception as e:
+            print(e)
+            return {}    
 
     def update_order_quantity(self, cart_id, order_quantity):
         try:
