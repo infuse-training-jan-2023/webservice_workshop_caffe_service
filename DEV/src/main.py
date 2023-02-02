@@ -15,6 +15,12 @@ def display_all_menu_items():
     print (items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
+@app.route('/menu/get/<string:item_id>',methods=['GET'])
+def display_one_menu_item(item_id):
+    items = item_actions.display_one_menu_item(item_id)
+    print(items)
+    return Response(json.dumps(items),mimetype='application/json',status=200)
+
 @app.route('/menu/add_item', methods=['POST'])
 def add_menu_item():
     request_data = request.get_json()

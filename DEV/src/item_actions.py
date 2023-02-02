@@ -52,6 +52,22 @@ class ItemActions:
             print(e)
             return {}
 
+    def display_one_menu_item(self,item_id):
+        try:
+            items = self.item_repo.display_one_menu_item(item_id)
+            res = []
+            for item in items:
+                res.append({
+                'menu_item_id': item[0],
+                'menu_item_name': item[1],
+                'menu_item_description': item[2],
+                'menu_item_price': item[3],
+                })
+            return res
+        except Exception as e:
+            print(e)
+            return {}
+
 
     def add_menu_item(self,menu_item_id,menu_item_name, menu_item_description,menu_item_price):
         try:
