@@ -22,12 +22,12 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("INSERT INTO cart (menu_item_id, order_quantity, customer_name) VALUES (?,?,?)",
+            insert_cursor = c.execute("INSERT INTO cart (menu_item_id, order_quantity, customer_name) VALUES (?,?,?)",
             (menu_item_id, order_quantity, customer_name))
             conn.commit()
             conn.close()
             return {
-                'cart_id': c.lastrowid,
+                'cart_id': insert_cursor.lastrowid,
                 'menu_item_id': menu_item_id,
                 'order_quantity': order_quantity,
                 'customer_name': customer_name
