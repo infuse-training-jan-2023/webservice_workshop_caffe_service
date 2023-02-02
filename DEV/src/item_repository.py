@@ -44,8 +44,9 @@ class ItemRepository:
             conn.commit()
             conn.close()
             return {
-                'cart_id': cart_id,
-                'order_quantity': order_quantity,
+                # 'cart_id': cart_id,
+                # 'order_quantity': order_quantity,
+                'Message': f'Order quantity updated as {order_quantity}'
             }
         except Exception as e:
             raise Exception("Errors: ", e)
@@ -70,7 +71,6 @@ class ItemRepository:
         except Exception as e:
             raise Exception('Error: ', e)
 
-    # dinesh
     @staticmethod
     def add_menu_item(menu_item_id,menu_item_name, menu_item_description,menu_item_price):
         try:

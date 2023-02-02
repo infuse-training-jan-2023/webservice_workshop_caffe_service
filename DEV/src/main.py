@@ -58,7 +58,7 @@ def update_order_quantity(cart_id):
 
   added_item = item_actions.update_order_quantity(cart_id, order_quantity)
   if added_item == {}:
-    return Response("{'error': 'Erro updating the item'}", mimetype='application/json', status=500)
+    return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
 
 if __name__ == '__main__':
