@@ -50,6 +50,20 @@ class ItemRepository:
             raise Exception("Errors: ", e)
 
     @staticmethod
+    def delete_cart_item(cart_id):
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            c.execute("DELETE FROM cart WHERE cart_id=?",(cart_id,))
+            conn.commit()
+            conn.close()
+            return {
+                'Message': f'Cart item {cart_id} deleted successfully'
+            }
+        except Exception as e:
+            raise Exception("Errors: ", e)
+
+    @staticmethod
     def update_order_quantity(cart_id, order_quantity):
         try:
             conn = ItemRepository.connect_db()
@@ -58,8 +72,9 @@ class ItemRepository:
             conn.commit()
             conn.close()
             return {
-                'cart_id': cart_id,
-                'order_quantity': order_quantity,
+                # 'cart_id': cart_id,
+                # 'order_quantity': order_quantity,
+                'Message': f'Order quantity updated as {order_quantity}'
             }
         except Exception as e:
             raise Exception("Errors: ", e)
@@ -99,7 +114,6 @@ class ItemRepository:
         except Exception as e:
             raise Exception('Error: ', e)
 
-    # dinesh
     @staticmethod
     def add_menu_item(menu_item_id,menu_item_name, menu_item_description,menu_item_price):
         try:

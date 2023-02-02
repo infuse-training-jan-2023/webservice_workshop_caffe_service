@@ -77,8 +77,14 @@ def update_order_quantity(cart_id):
 
   added_item = item_actions.update_order_quantity(cart_id, order_quantity)
   if added_item == {}:
-    return Response("{'error': 'Erro updating the item'}", mimetype='application/json', status=500)
+    return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
+
+@app.route('/cart/del/<string:cart_id>',methods=['POST'])
+def delete_cart_item(cart_id):
+    items = item_actions.delete_cart_item(cart_id)
+    print(items)
+    return Response(json.dumps(items),mimetype='application/json',status=200)
 
 if __name__ == '__main__':
     app.run(debug=True,port = 5001,host = "0.0.0.0")

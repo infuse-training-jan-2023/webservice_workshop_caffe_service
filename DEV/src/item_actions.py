@@ -9,9 +9,13 @@ class ItemActions:
             items = self.item_repo.get_all_cart_items(cust_name)
             res = []
             for item in items:
+                menu_res = self.display_one_menu_item(item[1])
+                print(menu_res)
+                for menu in menu_res:
+                    menu_item_name = menu['menu_item_name']
                 res.append({
                     'cart_id': item[0],
-                    'menu_item_id': item[1],
+                    'menu_item_name': menu_item_name,
                     'order_quantity': item[2],
                     'customer_name': item[3]
                 })
@@ -35,7 +39,14 @@ class ItemActions:
         except Exception as e:
             print(e)
             return {}
-  
+            
+    def delete_cart_item(self, cart_id):
+        try:
+            item = self.item_repo.delete_cart_item(cart_id)
+            return item
+        except Exception as e:
+            print(e)
+            return {}
 
     def update_price(self,item_id, menu_item_price):
         try:
@@ -84,7 +95,6 @@ class ItemActions:
         except Exception as e:
             print(e)
             return {}
-
 
     def add_menu_item(self,menu_item_id,menu_item_name, menu_item_description,menu_item_price):
         try:
