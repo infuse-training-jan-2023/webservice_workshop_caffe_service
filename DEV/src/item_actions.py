@@ -15,7 +15,7 @@ class ItemActions:
                     menu_item_name = menu['menu_item_name']
                 res.append({
                     'cart_id': item[0],
-                    'menu_item_name': menu_item_name,
+                    # 'menu_item_name': menu_item_name,
                     'order_quantity': item[2],
                     'customer_name': item[3]
                 })
@@ -43,6 +43,14 @@ class ItemActions:
     def delete_cart_item(self, cart_id):
         try:
             item = self.item_repo.delete_cart_item(cart_id)
+            return item
+        except Exception as e:
+            print(e)
+            return {}
+
+    def delete_all_cart_item(self, cust_name):
+        try:
+            item = self.item_repo.delete_all_cart_item(cust_name)
             return item
         except Exception as e:
             print(e)

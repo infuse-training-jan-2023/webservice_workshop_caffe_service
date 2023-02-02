@@ -64,6 +64,20 @@ class ItemRepository:
             raise Exception("Errors: ", e)
 
     @staticmethod
+    def delete_all_cart_item(cust_name):
+        try:
+            conn = ItemRepository.connect_db()
+            c = conn.cursor()
+            c.execute("DELETE FROM cart WHERE customer_name=?",(cust_name,))
+            conn.commit()
+            conn.close()
+            return {
+                'Message': f'Cart of {cust_name} cleared successfully'
+            }
+        except Exception as e:
+            raise Exception("Errors: ", e)
+
+    @staticmethod
     def update_order_quantity(cart_id, order_quantity):
         try:
             conn = ItemRepository.connect_db()
