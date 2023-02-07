@@ -2,17 +2,20 @@ import sqlite3
 
 class ItemRepository:
     DBPATH = "./caffe_service.db"
+    conn = None
 
     @staticmethod
     def connect_db():
-        return sqlite3.connect(ItemRepository.DBPATH)
+        if ItemRepository.conn is None:
+            ItemRepository.conn = sqlite3.connect(ItemRepository.DBPATH, check_same_thread=False)
+        return ItemRepository.conn
 
     @staticmethod
     def get_all_cart_items(cust_name):
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            rows = c.execute('select * from cart where customer_name=?', (cust_name,))
+            rows = c.execute('select * from cart where name=?', (cust_name,))
             return rows
         except Exception as e:
             raise Exception("Errors: ", e)
@@ -22,10 +25,9 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            insert_cursor = c.execute("INSERT INTO cart (menu_item_id, order_quantity, customer_name) VALUES (?,?,?)",
+            insert_cursor = c.execute("INSERT INTO cart (id, order_quantity, name) VALUES (?,?,?)",
             (menu_item_id, order_quantity, customer_name))
             conn.commit()
-            conn.close()
             return {
                 'cart_id': insert_cursor.lastrowid,
                 'menu_item_id': menu_item_id,
@@ -40,9 +42,8 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("DELETE FROM menu WHERE menu_item_id=?",(menu_item_id,))
+            c.execute("DELETE FROM menu WHERE id=?",(menu_item_id,))
             conn.commit()
-            conn.close()
             return {
                 'Message': f'Menu item {menu_item_id} deleted successfully'
             }
@@ -54,9 +55,8 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("DELETE FROM cart WHERE cart_id=?",(cart_id,))
+            c.execute("DELETE FROM cart WHERE cid=?",(cart_id,))
             conn.commit()
-            conn.close()
             return {
                 'Message': f'Cart item {cart_id} deleted successfully'
             }
@@ -68,9 +68,8 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("DELETE FROM cart WHERE customer_name=?",(cust_name,))
+            c.execute("DELETE FROM cart WHERE name=?",(cust_name,))
             conn.commit()
-            conn.close()
             return {
                 'Message': f'Cart of {cust_name} cleared successfully'
             }
@@ -82,12 +81,9 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("update cart set order_quantity=? where cart_id=?", (order_quantity, cart_id,))
+            c.execute("update cart set order_quantity=? where cid=?", (order_quantity, cart_id,))
             conn.commit()
-            conn.close()
             return {
-                # 'cart_id': cart_id,
-                # 'order_quantity': order_quantity,
                 'Message': f'Order quantity updated as {order_quantity}'
             }
         except Exception as e:
@@ -98,9 +94,8 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute("update menu set menu_item_price=? where menu_item_id=?", (menu_item_price, item_id,))
+            c.execute("update menu set price=? where id=?", (menu_item_price, item_id,))
             conn.commit()
-            conn.close()
             return {
                 'menu_item_id': item_id,
                 'menu_item_price': menu_item_price,
@@ -123,7 +118,7 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            rows = c.execute('select * from menu where menu_item_id=?', (item_id,))
+            rows = c.execute('select * from menu where id=?', (item_id,))
             return rows
         except Exception as e:
             raise Exception('Error: ', e)
@@ -133,7 +128,7 @@ class ItemRepository:
         try:
             conn = ItemRepository.connect_db()
             c = conn.cursor()
-            c.execute('insert into menu(menu_item_id,menu_item_name, menu_item_description, menu_item_price) values(?,?,?,?)', 
+            c.execute('insert into menu(id,name,description,price) values(?,?,?,?)', 
             (menu_item_id, menu_item_name, menu_item_description,menu_item_price))
             conn.commit()
             return {

@@ -9,17 +9,14 @@ item_actions = ItemActions()
 def home():
     return 'Welcome to CAFFE SERVICE'
 
-@app.route('/menu/all', methods=['GET'])
-@app.route('/menu/all',methods=['GET'])
+@app.route('/menu',methods=['GET'])
 def display_all_menu_items():
     items = item_actions.display_all_menu_items()
-    print (items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
-@app.route('/menu/get/<string:item_id>',methods=['GET'])
+@app.route('/menu/<string:item_id>',methods=['GET'])
 def display_one_menu_item(item_id):
     items = item_actions.display_one_menu_item(item_id)
-    print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
 @app.route('/menu/add_item', methods=['POST'])
@@ -34,13 +31,12 @@ def add_menu_item():
         return Response("{'error': 'Error addding the item'}",mimetype='application.json',status=500)
     return Response(json.dumps(added_item),mimetype='application/json',status=201)
 
-@app.route('/menu/del/<string:item_id>',methods=['POST'])
+@app.route('/menu/<string:item_id>',methods=['DELETE'])
 def delete_a_menu_item(item_id):
     items = item_actions.delete_a_menu_item(item_id)
-    print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
-@app.route('/menu/set/<string:item_id>',methods=['POST'])
+@app.route('/menu/<string:item_id>',methods=['PUT'])
 def update_a_menu_item(item_id):
     request_data = request.get_json()
     menu_item_price = request_data['menu_item_price']
@@ -52,10 +48,9 @@ def update_a_menu_item(item_id):
     return Response(json.dumps(updated_item_price), mimetype='application/json', status=201)
 
     
-@app.route('/cart/get/<string:cust_name>', methods=['GET'])
+@app.route('/cart/<string:cust_name>', methods=['GET'])
 def display_all_cart_items(cust_name):
   items = item_actions.get_all_cart_items(cust_name)
-  print(items)
   return Response(json.dumps(items), mimetype='application/json', status=200)
 
 @app.route('/cart/add_item', methods=['POST'])
@@ -67,10 +62,10 @@ def add_cart_items():
 
   added_item = item_actions.add_cart_item(menu_item_id, order_quantity, customer_name)
   if added_item == {}:
-    return Response("{'error': 'Erro addding the item'}", mimetype='application/json', status=500)
+    return Response("{'error': 'Error addding the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
 
-@app.route('/cart/set/<int:cart_id>', methods=['POST'])
+@app.route('/cart/<int:cart_id>', methods=['PUT'])
 def update_order_quantity(cart_id):
   request_data = request.get_json()
   order_quantity = request_data['order_quantity']
@@ -80,16 +75,14 @@ def update_order_quantity(cart_id):
     return Response("{'error': 'Error updating the item'}", mimetype='application/json', status=500)
   return Response(json.dumps(added_item), mimetype='application/json', status=201)
 
-@app.route('/cart/del/<string:cart_id>',methods=['POST'])
+@app.route('/cart/<string:cart_id>',methods=['DELETE'])
 def delete_cart_item(cart_id):
     items = item_actions.delete_cart_item(cart_id)
-    print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
-@app.route('/cart/clear/<string:cust_name>',methods=['POST'])
+@app.route('/cart/clear/<string:cust_name>',methods=['DELETE'])
 def delete_all_cart_item(cust_name):
     items = item_actions.delete_all_cart_item(cust_name)
-    print(items)
     return Response(json.dumps(items),mimetype='application/json',status=200)
 
 if __name__ == '__main__':
